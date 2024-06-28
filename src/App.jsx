@@ -10,22 +10,21 @@ const dummyQuote = {
 function App() {
   const [quotes, setQuotes] = useState([dummyQuote])
   const [selectedQuote, setSelectedQuote] = useState(dummyQuote)
-  const [isSpinnerVisible, setIsSpinnerVisible] = useState(false)
-
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    setIsSpinnerVisible(true);
     const apiUrl = 'https://jacintodesign.github.io/quotes-api/data/quotes.json';
     fetch(apiUrl)
       .then(response => response.json())
       .then(data => {
         setQuotes(data)
         selectQuote(data)
+        setIsLoading(false);
       })
       .catch(error => {
         alert(error)
+        setIsLoading(false);
       })
-    setIsSpinnerVisible(false);
   }, [])
 
   function tweetQuote() {
@@ -36,41 +35,34 @@ function App() {
   function selectQuote(quotes) {
     const selectedQuote = quotes[Math.floor(Math.random() * quotes.length)];
     setSelectedQuote(selectedQuote);
-
-    // showSpinner();
-    // authorText.textContent = quote.author ?? 'Unknown'; // does not make sense here
-    // Check quote length to determine the styling
-    // if (quote.text.length > 120) {
-    //     quoteText.classList.add('long-quote');
-    // } else {
-    //     quoteText.classList.remove('long-quote');
-    // }
-    // hideSpinner()
   }
 
   return (
     <>
-      <div className="quote-container" id="quote-container" hidden={isSpinnerVisible}>
-        {/* Quote */}
-        <div className="quote-text">
-          <i className="fas fa-quote-left"></i>
-          <span id="quote"> {selectedQuote.text}</span>
-        </div>
-        {/* Author */}
-        <div className="quote-author">
-          <span id="author">{quotes.author}</span>
-        </div>
-        {/* Buttons */}
-        <div className="button-container">
-          <button className="twitter-button" id="twitter" title="Tweet this!"
-            onClick={() => tweetQuote()}>
-            <i className="fab fa-twitter"></i>
-          </button>
-          <button id="new-quote" onClick={() => selectQuote(quotes)}>New Quote</button>
-        </div>
-      </div>
       {/* <!-- Loader --> */}
-      <div className="loader" id="loader" hidden={!isSpinnerVisible}></div>
+      {isLoading && <div className="loader" id="loader"></div>}
+      {/* <!-- Quote Container --> */}
+      {!isLoading &&
+
+        <div className="quote-container" id="quote-container">
+          {/* Quote */}
+          <div className="quote-text">
+            <i className="fas fa-quote-left"></i>
+            <span id="quote" className={selectedQuote.text.length > 120 ? 'long-quote' : undefined}> {selectedQuote.text}</span>
+          </div>
+          {/* Author */}
+          <div className="quote-author">
+            <span id="author">{selectedQuote.author ?? 'Unknown'}</span>
+          </div>
+          {/* Buttons */}
+          <div className="button-container">
+            <button className="twitter-button" id="twitter" title="Tweet this!"
+              onClick={() => tweetQuote()}>
+              <i className="fab fa-twitter"></i>
+            </button>
+            <button id="new-quote" onClick={() => selectQuote(quotes)}>New Quote</button>
+          </div>
+        </div>}
     </>
   )
 }
