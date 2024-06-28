@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-import './App.css'
 
+import Quote from './components/Quote/Quote'
+import Buttons from './components/Buttons/Buttons'
+import './App.css'
 
 const dummyQuote = {
   text: "This is a dummy quote",
@@ -27,42 +29,26 @@ function App() {
       })
   }, [])
 
-  function tweetQuote() {
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${selectedQuote.text} - ${selectedQuote.author}`;
-    window.open(twitterUrl, '_blank');
-  }
-
   function selectQuote(quotes) {
     const selectedQuote = quotes[Math.floor(Math.random() * quotes.length)];
     setSelectedQuote(selectedQuote);
   }
 
+  function tweetQuote() {
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${selectedQuote.text} - ${selectedQuote.author}`;
+    window.open(twitterUrl, '_blank');
+  }
+
   return (
     <>
       {/* <!-- Loader --> */}
-      {isLoading && <div className="loader" id="loader"></div>}
-      {/* <!-- Quote Container --> */}
+      {isLoading && <div className="loader"></div>}
       {!isLoading &&
-
-        <div className="quote-container" id="quote-container">
-          {/* Quote */}
-          <div className="quote-text">
-            <i className="fas fa-quote-left"></i>
-            <span id="quote" className={selectedQuote.text.length > 120 ? 'long-quote' : undefined}> {selectedQuote.text}</span>
-          </div>
-          {/* Author */}
-          <div className="quote-author">
-            <span id="author">{selectedQuote.author ?? 'Unknown'}</span>
-          </div>
-          {/* Buttons */}
-          <div className="button-container">
-            <button className="twitter-button" id="twitter" title="Tweet this!"
-              onClick={() => tweetQuote()}>
-              <i className="fab fa-twitter"></i>
-            </button>
-            <button id="new-quote" onClick={() => selectQuote(quotes)}>New Quote</button>
-          </div>
+        <div className="quote-container">
+          <Quote quote={selectedQuote}></Quote>
+          <Buttons selectQuote={selectQuote} tweetQuote={tweetQuote} quotes={quotes}></Buttons>
         </div>}
+
     </>
   )
 }
