@@ -1,8 +1,15 @@
-# React + Vite
+# React Quote Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Quote generator that allows tweeting on X (Yikes!)
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Quotes from Jacinto Design endpoint  
+    [Quotes source](https://jacintodesign.github.io/quotes-api/data/quotes.json)
+
+## Technologies
+- HTML/ CSS/ JavaScript
+- React
+
+**This project is inspired by the ZTM course**  
+JavaScript Web Projects: 20 Projects to Build Your Portfolio
